@@ -27,7 +27,7 @@ def predict_model(request):
         elif request.POST.__contains__('bathrooms'):
             form = NeighborhoodForm(request.POST)
             if form.is_valid():
-                return render(request, 'home.html', {'form': form})
+                return render(request, 'home.html', {'form': form, 'predict': True})
         elif request.POST.__contains__('bedrooms'):
             form = BathroomsForm(request.POST)
             if form.is_valid():
