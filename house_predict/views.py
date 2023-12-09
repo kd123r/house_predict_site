@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .forms import ModelForm, SquareFeetForm, BedroomsForm, BathroomsForm, NeighborhoodForm
 import pickle
+import locale
 
 def predict_model(request):
     # if this is a POST request we need to process the form data
@@ -23,7 +24,9 @@ def predict_model(request):
                 loaded_model = pickle.load(
                     open("ml_model/house_predict_model.pkl", 'rb'))
                 prediction = loaded_model.predict(model_features)[0]
-                return render(request, 'home.html', {'form': form, 'prediction': prediction, 'show': True})
+                locale.setlocale(locale.LC_ALL, '')
+                prediction_currency = locale.currency( prediction, grouping=True )
+                return render(request, 'home.html', {'form': form, 'prediction': prediction_currency, 'show': True})
         elif request.POST.__contains__('bathrooms'):
             form = NeighborhoodForm(request.POST)
             if form.is_valid():
