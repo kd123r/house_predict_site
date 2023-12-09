@@ -6,7 +6,6 @@ import locale
 def predict_model(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
-        print(request.POST)
         if request.POST.__contains__('neighborhood'):
             form = ModelForm(request.POST)
             if form.is_valid():
