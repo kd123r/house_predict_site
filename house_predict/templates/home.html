@@ -3,16 +3,31 @@
 {% block content %}
 <form action="" method="post">
     {% csrf_token %}
-    {{ form }}
+    <div class="form-row">
+        {% for field in form.visible_fields %}
+            <div class="col-4">
+                {{ field.label }}:
+                {{ field }}
+            </div>
+        {% endfor %}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+    </div>
     <div class="mt-2">
         {% if show %}
-            <button type="button">
-                <a href="{% url 'predict_model' %}">Restart</a>
+            <button type="button" class="btn btn-secondary">
+                <a href="{% url 'predict_model' %}" style="text-decoration: none; color: white;">Restart</a>
             </button>
         {% else %}
-            <input type="button" value="Previous" onClick="javascript:history.go(-1);">
+            <input type="button" class="btn btn-secondary" value="Previous" onClick="javascript:history.go(-1);">
         {% endif %}
-        <input type="submit" value={{ predict|yesno:"Predict,Next" }}>
+        {% if not show and predict%}
+        <input type="submit" value="Predict" class="btn btn-success">
+        {% endif %}
+        {% if not show and not predict%}
+        <input type="submit" value="Next" class="btn btn-primary">
+        {% endif %}
     </div>
 </form>
 
