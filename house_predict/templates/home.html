@@ -34,5 +34,8 @@
 {% if show %}
 <p> The model predicted: <b>{{ prediction }}</b></p>
 {% endif %}
+{% if image_url %}
+<img src="{{ image_url }}">
+{% endif %}
 
 {% endblock %}
