@@ -3,6 +3,9 @@ from .forms import ModelForm, SquareFeetForm, BedroomsForm, BathroomsForm, Neigh
 import pickle
 import locale
 from openai import OpenAI
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 def predict_model(request):
     # if this is a POST request we need to process the form data
@@ -32,7 +35,7 @@ def predict_model(request):
                 area = 'rural' if neighborhood_int == 0 else 'suburb' if neighborhood_int == 1 else 'urban'
                 prompt = 'Generate an image of a ' + house_size + '-sized house in a ' + area + ' area.'
                 openai_client = OpenAI(
-                    api_key='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'
+                    api_key=os.getenv('OPENAI_API_KEY')
                 )
                 response = openai_client.images.generate(
                     prompt=prompt,
